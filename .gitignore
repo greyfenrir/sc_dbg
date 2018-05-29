@@ -1,4 +1,7 @@
 /docker_home/venv/
+/docker_home/tmp/
 /docker_home/python.src/
 /docker_home/python.inst/
+docker_home/build/
+__pycache__/
 

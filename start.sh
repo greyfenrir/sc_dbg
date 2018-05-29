@@ -1,1 +1,1 @@
-docker run -v `pwd`:/home -it sc_dbg
+docker run -v `pwd`/docker_home:/home -it sc_dbg
