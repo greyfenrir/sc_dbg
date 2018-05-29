@@ -12,7 +12,7 @@ RUN apt-get -y install --no-install-recommends atop zip psmisc imagemagick iprou
  && apt-get clean
 
 # ADD ./python.src /home/python.src
-COPY ./docker_home/* /home/
+COPY ./docker_home/ /home/
 
 # RUN /home/build_env.sh
 

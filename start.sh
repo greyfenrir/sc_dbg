@@ -1,1 +1,1 @@
-docker run -v `pwd`/python.src:/home/python.src -it sc_dbg
+docker run -v `pwd`:/home -it sc_dbg

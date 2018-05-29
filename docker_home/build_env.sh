@@ -8,6 +8,12 @@ TMP_BUILD_DIR="$BUILDER_DIR"/tmp
 PREFIX="$BUILDER_DIR"/python.inst
 VENV_DIR="$BUILDER_DIR"/venv
 
+if [ ! -d "$CPYTHON_DIR" ]; then
+	git clone https://github.com/python/cpython.git "$CPYTHON_DIR"
+	cd "$CPYTHON_DIR"
+	git checkout "v3.5.5"
+	cd ..
+fi
 
 if [ -d "$TMP_BUILD_DIR" ]; then
 	echo "removing old $TMP_BUILD_DIR..."
