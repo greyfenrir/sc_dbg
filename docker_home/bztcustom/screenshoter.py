@@ -24,9 +24,6 @@ class ScreenShoter(Service):
         self.size = None
         self.process = None
         self.start_time = None
-        self.file = '/tmp/out.txt'
-        if os.path.exists(self.file):
-            os.remove(self.file)
 
     def startup(self):
         super(ScreenShoter, self).startup()
@@ -89,9 +86,7 @@ class ScreenShoter(Service):
         # grab as quickly as possible. should we add timeout there?
         while True:
             try:
-                with open(self.file, 'a') as _f: _f.write('before grab()\n')
                 img = backend_obj.grab(None)
-                with open(self.file, 'a') as _f: _f.write('after grab()\n\n')
                 if img:
                     tstmp = int(time.time() * 1000)
                     img_file = self.engine.create_artifact("scr/%s" % tstmp, ".jpg")
@@ -100,25 +95,14 @@ class ScreenShoter(Service):
                     img.save(img_file)
 
             except KeyboardInterrupt:
-                with open(self.file, 'a') as _f:
-                    _f.write('exc KBD\n\n')
                 raise
 
             except BaseException:
-                with open(self.file, 'a') as _f:
-                    _f.write('exc BaseExc\n\n')
                 time.sleep(1)
 
     def shutdown(self):
-        with open(self.file, 'a') as _f:
-            _f.write('shutdown()\n\n')
         super(ScreenShoter, self).shutdown()
-        with open(self.file, 'a') as _f:
-            _f.write('shutdown: try to termitate proc\n\n')
         self.process.terminate()
-        with open(self.file, 'a') as _f:
-            _f.write('shutdown: proc terminated\n\n')
-
         self.interrupted = True
 
     def uniq_files(self):
