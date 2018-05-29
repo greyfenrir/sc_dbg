@@ -26,7 +26,7 @@ class TestScreenshoter(BZTestCase):
         display.startup()
         obj.startup()
         self.assertEqual(display.get_virtual_display(), obj.virtual_display)
-        time.sleep(1)   # preparing of screenshoter subprocess
+        # time.sleep(1)   # preparing of screenshoter subprocess
 
         with EasyProcess('xmessage hello', env=obj.engine.shared_env.get()):
             for n in range(0, 2):

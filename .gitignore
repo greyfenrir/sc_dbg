@@ -3,5 +3,7 @@
 /docker_home/python.src/
 /docker_home/python.inst/
 docker_home/build/
+/docker_home/bztcustom/
+/docker_home/tests/
 __pycache__/
 
