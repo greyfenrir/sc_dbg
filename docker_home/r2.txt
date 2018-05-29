@@ -1,0 +1,8 @@
+boto3==1.5.7
+requests==2.18.4
+cssselect==1.0.1
+yq==2.3.2
+pillow
+pyscreenshot
+browsermob-proxy
+pyvirtualdisplay

@@ -8,13 +8,6 @@ TMP_BUILD_DIR="$BUILDER_DIR"/tmp
 PREFIX="$BUILDER_DIR"/python.inst
 VENV_DIR="$BUILDER_DIR"/venv
 
-if [ ! -d "$CPYTHON_DIR" ]; then
-	git clone https://github.com/python/cpython.git "$CPYTHON_DIR"
-	cd "$CPYTHON_DIR"
-	git checkout "v3.5.5"
-	cd ..
-fi
-	
 
 if [ -d "$TMP_BUILD_DIR" ]; then
 	echo "removing old $TMP_BUILD_DIR..."
@@ -42,4 +35,14 @@ cd "$TMP_BUILD_DIR"
 
 make && make install
 
-virtualenv "$VENV_DIR" -p "$PREFIX"/bin/python3
+python -m virtualenv "$VENV_DIR" -p "$PREFIX"/bin/python3
+
+_OLD_PATH="$PATH"
+PATH="$VENV_DIR"/bin:"$PATH"
+
+pip install -U pip setuptools wheel
+pip install -r "$BUILDER_DIR"/r1.txt
+pip install -r "$BUILDER_DIR"/r2.txt
+pip install git+https://github.com/Blazemeter/taurus.git
+
+PATH="$_OLD_PATH"
