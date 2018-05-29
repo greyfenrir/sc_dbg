@@ -11,13 +11,4 @@ RUN apt-get -y install --no-install-recommends atop zip psmisc imagemagick iprou
  && apt-get -y install --no-install-recommends {libssl,libxml2,libxslt,python,lib32z1,libjpeg}-dev
  && apt-get clean
 
-RUN pip install -U pip setuptools wheel
-#RUN pip install bzt
-
-
-COPY ./squid/* /etc/squid/
-COPY ./init.sh /usr/bin/
-
-# RUN /etc/init.d/squid restart
-
-ENTRYPOINT  init.sh && /bin/bash
+ENTRYPOINT  /bin/bash
