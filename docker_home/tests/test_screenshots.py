@@ -427,6 +427,7 @@ class TestScreenshoter(BZTestCase):
                 time.sleep(1)
 
         obj.shutdown()
+        display.shutdown()
 
         scr_dir = os.path.join(obj.engine.artifacts_dir, "scr")
         draft_count = len(os.listdir(scr_dir))          # draft files in dir
