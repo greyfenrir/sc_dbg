@@ -1,5 +1,6 @@
 import time
 import threading
+
 from multiprocessing import Process
 from easyprocess import EasyProcess
 
@@ -12,29 +13,26 @@ class Second(object):
         thread.start()
         
     def _second(self):
-        time.sleep(0.1)
-        
         self.process = Process(target=self._sub)
         self.process.start()
 
     def _sub(self):
         while True:
-            pass
+            time.sleep(1)
 
     def shutdown(self):
         self.process.terminate()
 
 
 def main():
-        obj = Second()
-        obj.startup()
-        time.sleep(0.1)
+    obj = Second()
+    obj.startup()
 
-        with EasyProcess('sleep 100'):
-            for n in range(0, 2):                
-                time.sleep(0.3)
+    with EasyProcess('sleep 100'):
+        pass
 
-        obj.shutdown()
+
+    obj.shutdown()
 
 if __name__ == "__main__":
 	main()
