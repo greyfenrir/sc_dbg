@@ -5,6 +5,6 @@ PATH=/home/venv/bin:$PATH
 for i in {1..100}
 do 
   echo $i
-  nosetests -v tests/test_screenshots.py
+  python sc.py
   date
 done
