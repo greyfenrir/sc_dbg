@@ -8,9 +8,10 @@ from easyprocess import EasyProcess
 from bzt.modules.provisioning import Local
 from bzt.modules.selenium import SeleniumExecutor
 from bzt.modules.services import VirtualDisplay
+
 from unittest import TestCase
 
-from bzt.engine import ScenarioExecutor, Configuration, Engine
+from bzt.engine import Configuration, Engine
 
 import threading
 from multiprocessing import Process
@@ -31,7 +32,7 @@ class Second(Service):
         self.process = Process(target=self._sub)
         self.process.start()
 
-    def sub(self):
+    def _sub(self):
         while True:
             pass
 
@@ -46,12 +47,13 @@ class EngineEmul(Engine):
 
     def __init__(self):
         super(EngineEmul, self).__init__(logging.getLogger(''))
-        #self.config.merge({"provisioning": "local"})
+        self.config.merge({"provisioning": "local"})
         art_dir_pattern = os.path.dirname(__file__) + "/../build/test/%Y-%m-%d_%H-%M-%S.%f"
         self.config.get('settings', force_set=True)['artifacts-dir'] = art_dir_pattern
-        self.create_artifacts_dir()        
+        self.create_artifacts_dir()
 
-class TestSecond(TestCase):
+
+class TestScreenshoter(TestCase):
     def test_simple(self):
         obj = Second()
         obj.engine = EngineEmul()
@@ -67,13 +69,13 @@ class TestSecond(TestCase):
         obj.startup()
         time.sleep(0.1)   # preparing of screenshoter subprocess
 
-        with EasyProcess('xmessage hello', env=obj.engine.shared_env.get()):
+        with EasyProcess('sleep 100', env=obj.engine.shared_env.get()):
             for n in range(0, 2):
                 obj.check()
-                time.sleep(0.2)        
+                time.sleep(1)
 
         obj.shutdown()
         display.shutdown()        
 
-        #obj.post_process()
+        obj.post_process()
         display.post_process()
