@@ -1,20 +1,15 @@
 import time
 import threading
-from unittest import TestCase
 from multiprocessing import Process
 from easyprocess import EasyProcess
 
-from bzt.engine import Service
-
-
 class Second(object):
+    def __init__(self):
+        self.process = None
 
     def startup(self):        
         thread = threading.Thread(target=self._second)
         thread.start()
-
-    def check(self):
-        pass
         
     def _second(self):
         time.sleep(0.1)
@@ -30,18 +25,16 @@ class Second(object):
         self.process.terminate()
 
 
-class TestSc(TestCase):
-    def t_me(self):
+def main():
         obj = Second()
         obj.startup()
-        time.sleep(0.1)   # preparing of screenshoter subprocess
+        time.sleep(0.1)
 
         with EasyProcess('sleep 100'):
-            for n in range(0, 2):
-                obj.check()
+            for n in range(0, 2):                
                 time.sleep(0.3)
 
         obj.shutdown()
 
 if __name__ == "__main__":
-	TestSc().t_me()
+	main()
