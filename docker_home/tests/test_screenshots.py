@@ -6,24 +6,20 @@ import tempfile
 from easyprocess import EasyProcess
 
 from bzt.modules.provisioning import Local
-from bzt.modules.selenium import SeleniumExecutor
 from bzt.modules.services import VirtualDisplay
 
 from unittest import TestCase
 
-from bzt.engine import Configuration, Engine
-
 import threading
 from multiprocessing import Process
 
-from bzt.engine import Service
+from bzt.engine import Service, Engine
 
 
 class Second(Service):
 
     def startup(self):        
         thread = threading.Thread(target=self._second)
-        thread.daemon = True
         thread.start()
 
     def _second(self):
@@ -58,18 +54,16 @@ class TestScreenshoter(TestCase):
         obj = Second()
         obj.engine = EngineEmul()
         obj.engine.provisioning = Local()
-        executor = SeleniumExecutor()
+
         display = VirtualDisplay()
         display.engine = obj.engine
         obj.engine.services.append(display)
-        obj.engine.provisioning.executors.append(executor)
 
-        #obj.prepare()
         display.startup()
         obj.startup()
         time.sleep(0.1)   # preparing of screenshoter subprocess
 
-        with EasyProcess('sleep 100', env=obj.engine.shared_env.get()):
+        with EasyProcess('sleep 100'):
             for n in range(0, 2):
                 obj.check()
                 time.sleep(1)
